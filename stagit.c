@@ -950,7 +950,7 @@ writeblob(git_object *obj, const char *fpath, const char *filename, size_t files
 	if (git_blob_is_binary((git_blob *)obj)) {
 		fputs("<p>Binary file.</p>\n", fp);
     else if (file_is_md(filename)) {
-        lc = writeblobmd(fg, (git_blob *)obj);
+        lc = writeblobmd(fp, (git_blob *)obj);
         if (ferror(fp))
             err(1, "md parse fail");
 	} else {
