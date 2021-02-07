@@ -515,7 +515,7 @@ writeblobmd(FILE *fp, const git_blob *blob)
     size_t len = git_blob_rawsize(blob);
     fputs("<pre id=\"blob\">\n", fp);
     if (len > 0) {
-        lc = md_html(s, len, processmd, fp, MD_FLAG_TABLES | MD_FLAD_TASKLIST | 
+        lc = md_html(s, len, processmd, fp, MD_FLAG_TABLES | MD_FLAG_TASKLIST | 
                 MD_FLAG_PERMISSIVEEMAILAUTOLINKS | MD_FLAG_PERMISSIVEURLAUTOLINKS, 0);
     }
 
