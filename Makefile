@@ -40,7 +40,10 @@ HDR = compat.h
 COMPATOBJ = \
 	reallocarray.o\
 	strlcat.o\
-	strlcpy.o
+	strlcpy.o\
+	entity.o\
+	md4c.o\
+	md4c-html.o
 
 OBJ = ${SRC:.c=.o} ${COMPATOBJ}
 
