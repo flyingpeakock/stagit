@@ -502,7 +502,7 @@ writefooter(FILE *fp)
 }
 
 void
-procesessmd(const char* output, unsigned int len, void *fp)
+processmd(const char* output, unsigned int len, void *fp)
 {
     fprintf((FILE *)fp, "%.*s", len, output);
 }
