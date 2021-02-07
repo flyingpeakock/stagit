@@ -910,7 +910,7 @@ writeatom(FILE *fp, int all)
 int
 file_is_md(const char *filename)
 {
-    int i = strlen(filename) - 4;
+    int i = strlen(filename) - 3;
     if (filename[i++] == '.' &&
             filename[i++] == 'm' &&
             filename[i] == 'd')
