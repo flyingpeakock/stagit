@@ -14,7 +14,7 @@
 
 #include <git2.h>
 
-#include "compat.h"
+#include "md4c-html.h"
 
 #define LEN(s)    (sizeof(s)/sizeof(*s))
 

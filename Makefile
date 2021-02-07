@@ -18,14 +18,14 @@ STAGIT_CPPFLAGS = -D_XOPEN_SOURCE=700 -D_DEFAULT_SOURCE -D_BSD_SOURCE
 
 SRC = \
 	stagit.c\
-	stagit-index.c\
-	entity.c\
-	md4c.c\
-	md4c-html.c
+	stagit-index.c
 COMPATSRC = \
 	reallocarray.c\
 	strlcat.c\
-	strlcpy.c
+	strlcpy.c\
+	entity.c\
+	md4c.c\
+	md4c-html.c
 BIN = \
 	stagit\
 	stagit-index
@@ -40,7 +40,10 @@ HDR = compat.h
 COMPATOBJ = \
 	reallocarray.o\
 	strlcat.o\
-	strlcpy.o
+	strlcpy.o\
+	entity.o\
+	md4c.o\
+	md4c-html.o
 
 OBJ = ${SRC:.c=.o} ${COMPATOBJ}
 
