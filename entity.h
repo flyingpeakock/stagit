@@ -1,0 +1,1 @@
+<html><body>You are being <a href="https://raw.githubusercontent.com/mity/md4c/master/src/entity.h">redirected</a>.</body></html>
