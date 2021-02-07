@@ -52,21 +52,19 @@ It may be useful to build static binaries, for example to run in a chroot.
 
 It can be done like this at the time of writing (v0.24):
 
-`
-cd libgit2-src
+    cd libgit2-src
 
-# change the options in the CMake file: CMakeLists.txt
-BUILD_SHARED_LIBS to OFF (static)
-CURL to OFF              (not needed)
-USE_SSH OFF              (not needed)
-THREADSAFE OFF           (not needed)
-USE_OPENSSL OFF          (not needed, use builtin)
-
-mkdir -p build && cd build
-cmake ../
-make
-make install
-`
+    # change the options in the CMake file: CMakeLists.txt
+    BUILD_SHARED_LIBS to OFF (static)
+    CURL to OFF              (not needed)
+    USE_SSH OFF              (not needed)
+    THREADSAFE OFF           (not needed)
+    USE_OPENSSL OFF          (not needed, use builtin)
+    
+    mkdir -p build && cd build
+    cmake ../
+    make
+    make install
 
 
 Extract owner field from git config
