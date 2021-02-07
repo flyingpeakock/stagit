@@ -501,6 +501,28 @@ writefooter(FILE *fp)
 	fputs("</div>\n</body>\n</html>\n", fp);
 }
 
+void
+procesessmd(const char* output, unsigned int len, void *fp)
+{
+    fprintf((FILE *)fp, "%.*s", len, output);
+}
+
+size_t
+writebloblmd(FILE *fp, const git_blob *blob)
+{
+    size_t lc = 0;
+    const char *s = git_blob_rawcontent(blob);
+    len = git_blob_rawsize(blob);
+    fputs("<pre id=\"blob\">\n", fp);
+    if (len > 0) {
+        lc = md_html(s, len, processmd, fp, MD_FLAG_TABLES | MD_FLAD_TASKLIST | 
+                MD_FLAG_PERMISSIVEEMAILAUTOLINKS | MD_FLAG_PERMISSIVEURLAUTOLINKS, 0);
+    }
+
+    fputs("</pre>\n", fp);
+    return lc;
+}
+
 size_t
 writeblobhtml(FILE *fp, const git_blob *blob)
 {
@@ -885,6 +907,18 @@ writeatom(FILE *fp, int all)
 	return 0;
 }
 
+int
+file_is_md(const char *filename)
+{
+    int i = strlen(filename) - 4;
+    if (filename[i++] == '.' &&
+            filename[i++] == 'm' &&
+            filename[i] == 'd')
+        return 1;
+    return 0;
+    
+}
+
 size_t
 writeblob(git_object *obj, const char *fpath, const char *filename, size_t filesize, const char *entrypath)
 {
@@ -915,6 +949,10 @@ writeblob(git_object *obj, const char *fpath, const char *filename, size_t files
 
 	if (git_blob_is_binary((git_blob *)obj)) {
 		fputs("<p>Binary file.</p>\n", fp);
+    else if (file_is_md(filename)) {
+        lc = writeblobmd(fg, (git_blob *)obj);
+        if (ferror(fp))
+            err(1, "md parse fail");
 	} else {
 		lc = writeblobhtml(fp, (git_blob *)obj);
 		if (ferror(fp))

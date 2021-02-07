@@ -22,7 +22,10 @@ SRC = \
 COMPATSRC = \
 	reallocarray.c\
 	strlcat.c\
-	strlcpy.c
+	strlcpy.c\
+	entity.c\
+	md4c.c\
+	md4c-html.c
 BIN = \
 	stagit\
 	stagit-index
