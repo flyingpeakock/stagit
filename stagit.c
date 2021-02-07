@@ -508,7 +508,7 @@ procesessmd(const char* output, unsigned int len, void *fp)
 }
 
 size_t
-writebloblmd(FILE *fp, const git_blob *blob)
+writeblobmd(FILE *fp, const git_blob *blob)
 {
     size_t lc = 0;
     const char *s = git_blob_rawcontent(blob);
