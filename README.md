@@ -5,25 +5,29 @@ static git page generator.
 
 It generates static HTML pages for a git repository.
 
+This is my personal fork of stagit. When viewing the files there
+is a link above the file to download the file.
+Markdown files are also displayed correctly using md4c.
+
 
 Usage
 -----
 
 Make files per repository:
 
-	$ mkdir -p htmldir && cd htmldir
-	$ stagit path-to-repo
+    $ mkdir -p htmldir && cd htmldir
+    $ stagit path-to-repo
 
 Make index file for repositories:
 
-	$ stagit-index repodir1 repodir2 repodir3 > index.html
+    $ stagit-index repodir1 repodir2 repodir3 > index.html
 
 
 Build and install
 -----------------
 
-$ make
-# make install
+    $ make
+    # make install
 
 
 Dependencies
@@ -48,6 +52,7 @@ It may be useful to build static binaries, for example to run in a chroot.
 
 It can be done like this at the time of writing (v0.24):
 
+`
 cd libgit2-src
 
 # change the options in the CMake file: CMakeLists.txt
@@ -61,6 +66,7 @@ mkdir -p build && cd build
 cmake ../
 make
 make install
+`
 
 
 Extract owner field from git config
@@ -73,20 +79,20 @@ A way to extract the gitweb owner for example in the format:
 
 Script:
 
-	#!/bin/sh
-	awk '/^[ 	]*owner[ 	]=/ {
-		sub(/^[^=]*=[ 	]*/, "");
-		print $0;
-	}'
+    #!/bin/sh
+    awk '/^[ 	]*owner[ 	]=/ {
+        sub(/^[^=]*=[ 	]*/, "");
+        print $0;
+    }'
 
 
 Set clone url for a directory of repos
 --------------------------------------
-	#!/bin/sh
-	cd "$dir"
-	for i in *; do
-		test -d "$i" && echo "git://git.codemadness.org/$i" > "$i/url"
-	done
+#!/bin/sh
+    cd "$dir"
+    for i in *; do
+        test -d "$i" && echo "git://git.codemadness.org/$i" > "$i/url"
+    done
 
 
 Update files on git push
@@ -100,40 +106,40 @@ history. See stagit(1).
 
 git post-receive hook (repo/.git/hooks/post-receive):
 
-	#!/bin/sh
-	# detect git push -f
-	force=0
-	while read -r old new ref; do
-		hasrevs=$(git rev-list "$old" "^$new" | sed 1q)
-		if test -n "$hasrevs"; then
-			force=1
-			break
-		fi
-	done
+    #!/bin/sh
+    # detect git push -f
+    force=0
+    while read -r old new ref; do
+        hasrevs=$(git rev-list "$old" "^$new" | sed 1q)
+        if test -n "$hasrevs"; then
+	        force=1
+            break
+        fi
+    done
 
-	# remove commits and .cache on git push -f
-	#if test "$force" = "1"; then
-	# ...
-	#fi
+    # remove commits and .cache on git push -f
+    #if test "$force" = "1"; then
+    # ...
+    #fi
 
-	# see example_create.sh for normal creation of the files.
+    # see example_create.sh for normal creation of the files.
 
 
 Create .tar.gz archives by tag
 ------------------------------
-	#!/bin/sh
-	name="stagit"
-	mkdir -p archives
-	git tag -l | while read -r t; do
-		f="archives/${name}-$(echo "${t}" | tr '/' '_').tar.gz"
-		test -f "${f}" && continue
-		git archive \
-			--format tar.gz \
-			--prefix "${t}/" \
-			-o "${f}" \
-			-- \
-			"${t}"
-	done
+    #!/bin/sh
+    name="stagit"
+    mkdir -p archives
+    git tag -l | while read -r t; do
+    	f="archives/${name}-$(echo "${t}" | tr '/' '_').tar.gz"
+    	test -f "${f}" && continue
+    	git archive \
+    		--format tar.gz \
+    		--prefix "${t}/" \
+    		-o "${f}" \
+    		-- \
+    		"${t}"
+    done
 
 
 Features
