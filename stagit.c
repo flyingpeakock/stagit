@@ -510,17 +510,27 @@ processmd(const char* output, unsigned int len, void *fp)
 size_t
 writeblobmd(FILE *fp, const git_blob *blob)
 {
-    size_t lc = 0;
+    size_t n = 0, i, len, prev, ret;
     const char *s = git_blob_rawcontent(blob);
-    size_t len = git_blob_rawsize(blob);
+    len = git_blob_rawsize(blob);
     fputs("<pre id=\"blob\">\n", fp);
+    /* Counting lines in the file*/
     if (len > 0) {
-        lc = md_html(s, len, processmd, fp, MD_FLAG_TABLES | MD_FLAG_TASKLISTS | 
+        for (i = 0, prev = 0; i < len; i++) {
+            if (s[i] != '\n')
+                continue;
+            n++;
+            prev = i + 1;
+        }
+        if ((len - prev) > 0) {
+            n++;
+        }
+        ret = md_html(s, len, processmd, fp, MD_FLAG_TABLES | MD_FLAG_TASKLISTS | 
                 MD_FLAG_PERMISSIVEEMAILAUTOLINKS | MD_FLAG_PERMISSIVEURLAUTOLINKS, 0);
     }
 
     fputs("</pre>\n", fp);
-    return lc;
+    return n;
 }
 
 size_t
