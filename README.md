@@ -86,7 +86,7 @@ Script:
 
 Set clone url for a directory of repos
 --------------------------------------
-#!/bin/sh
+    #!/bin/sh
     cd "$dir"
     for i in *; do
         test -d "$i" && echo "git://git.codemadness.org/$i" > "$i/url"
