@@ -513,7 +513,7 @@ writeblobmd(FILE *fp, const git_blob *blob)
     size_t n = 0, i, len, prev, ret;
     const char *s = git_blob_rawcontent(blob);
     len = git_blob_rawsize(blob);
-    fputs("<pre id=\"blob\">\n", fp);
+    fputs("<div id=\"md\">\n", fp);
     /* Counting lines in the file*/
     if (len > 0) {
         for (i = 0, prev = 0; i < len; i++) {
@@ -529,7 +529,7 @@ writeblobmd(FILE *fp, const git_blob *blob)
                 MD_FLAG_PERMISSIVEEMAILAUTOLINKS | MD_FLAG_PERMISSIVEURLAUTOLINKS, 0);
     }
 
-    fputs("</pre>\n", fp);
+    fputs("</div>\n", fp);
     return n;
 }
 
