@@ -952,7 +952,7 @@ writeblob(git_object *obj, const char *fpath, const char *filename, size_t files
 
 	fp = efopen(fpath, "w");
 	writeheader(fp, filename);
-	fprintf(fp, "<a href=/raw/%s/%s> ", name, entrypath);
+	fprintf(fp, "<a id=rawLink href=/raw/%s/%s> ", name, entrypath);
 	xmlencode(fp, filename, strlen(filename));
 	fprintf(fp, " (%zuB)", filesize);
 	fputs("</a><hr/>", fp);
