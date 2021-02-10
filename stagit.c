@@ -1135,7 +1135,7 @@ writerefs(FILE *fp)
 
 		/* print header if it has an entry (first). */
 		if (++count == 1) {
-			fprintf(fp, "<h2>%s</h2><table id=\"%s\">"
+			fprintf(fp, "<h2 id=\"refTitle\">%s</h2><table id=\"%s\">"
 		                "<thead>\n<tr><td><b>Name</b></td>"
 			        "<td><b>Last commit date</b></td>"
 			        "<td><b>Author</b></td>\n</tr>\n"
