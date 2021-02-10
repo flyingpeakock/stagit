@@ -12,7 +12,7 @@ to cli apps on my web-server.
 * Title of files while viewing is now a link to download the file
 * The index page now links to the repository directory
 * md4c has been added to parse markdown files
-* added classes and ids to some html tags to easier style them
+* Added classes and ids to some html tags to easier style them
 
 The link to download the file points to `/raw/repository.git/path/to/file`
 
