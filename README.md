@@ -1,17 +1,43 @@
-stagit
-------
+# stagit
 
 static git page generator.
 
 It generates static HTML pages for a git repository.
 
-This is my personal fork of stagit. When viewing the files there
-is a link above the file to download the file.
-Markdown files are also displayed correctly using md4c.
+## Changes
+This is my personal fork of stagit.    
+It has been modified to fit my needs and some refs points
+to cli apps on my web-server.
 
+* Title of files while viewing is now a link to download the file
+* The index page now links to the repository directory
+* md4c has been added to parse markdown files
+* added classes and ids to some html tags to easier style them
 
-Usage
------
+The link to download the file points to
+    /raw/repository.git/path/to/file
+
+Make necessary changes to the web-server to serve the file    
+View a file in a bare repository:
+
+    $cd path/to/repo
+    $git show HEAD:path/to/file
+
+The index page linking to the directory will not change the default 
+behavior of stagit if the static files have been created with the provided 
+shell script since log.html is symlinked to index.html.    
+
+This change was made so that the web-server could check if request is for a 
+directory. If it is check if there is a file called README.md.html in the 
+sub-directory file, if it exists serve that file instead of log.html.
+
+### md4c
+https://github.com/mity/md4c
+md4c is used to parse and convert markdown documents into html. If a file 
+ends with `.md` it will be parsed by md4c rather than the regular way 
+stagit parses plain text files.
+
+## Usage
 
 Make files per repository:
 
@@ -23,15 +49,13 @@ Make index file for repositories:
     $ stagit-index repodir1 repodir2 repodir3 > index.html
 
 
-Build and install
------------------
+## Build and install
 
     $ make
     # make install
 
 
-Dependencies
-------------
+## Dependencies
 
 - C compiler (C99).
 - libc (tested with OpenBSD, FreeBSD, NetBSD, Linux: glibc and musl).
@@ -39,14 +63,12 @@ Dependencies
 - POSIX make (optional).
 
 
-Documentation
--------------
+## Documentation
 
 See man pages: stagit(1) and stagit-index(1).
 
 
-Building a static binary
-------------------------
+### Building a static binary
 
 It may be useful to build static binaries, for example to run in a chroot.
 
@@ -67,8 +89,7 @@ It can be done like this at the time of writing (v0.24):
     make install
 
 
-Extract owner field from git config
------------------------------------
+### Extract owner field from git config
 
 A way to extract the gitweb owner for example in the format:
 
@@ -84,8 +105,8 @@ Script:
     }'
 
 
-Set clone url for a directory of repos
---------------------------------------
+### Set clone url for a directory of repos
+
     #!/bin/sh
     cd "$dir"
     for i in *; do
@@ -93,8 +114,7 @@ Set clone url for a directory of repos
     done
 
 
-Update files on git push
-------------------------
+### Update files on git push
 
 Using a post-receive hook the static files can be automatically updated.
 Keep in mind git push -f can change the history and the commits may need
@@ -123,8 +143,8 @@ git post-receive hook (repo/.git/hooks/post-receive):
     # see example_create.sh for normal creation of the files.
 
 
-Create .tar.gz archives by tag
-------------------------------
+### Create .tar.gz archives by tag
+
     #!/bin/sh
     name="stagit"
     mkdir -p archives
@@ -140,8 +160,7 @@ Create .tar.gz archives by tag
     done
 
 
-Features
---------
+## Features
 
 - Log of all commits from HEAD.
 - Log and diffstat per commit.
@@ -157,8 +176,7 @@ Features
 - Usable with text-browsers such as dillo, links, lynx and w3m.
 
 
-Cons
-----
+## Cons
 
 - Not suitable for large repositories (2000+ commits), because diffstats are
 an expensive operation, the cache (-c flag) is a workaround for this in 
