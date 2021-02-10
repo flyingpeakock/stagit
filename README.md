@@ -14,28 +14,31 @@ to cli apps on my web-server.
 * md4c has been added to parse markdown files
 * added classes and ids to some html tags to easier style them
 
-The link to download the file points to
-    /raw/repository.git/path/to/file
+The link to download the file points to `/raw/repository.git/path/to/file`
 
 Make necessary changes to the web-server to serve the file    
-View a file in a bare repository:
+
+To view a file in a bare repository:
 
     $cd path/to/repo
     $git show HEAD:path/to/file
 
 The index page linking to the directory will not change the default 
-behavior of stagit if the static files have been created with the provided 
-shell script since log.html is symlinked to index.html.    
+behavior of stagit if the html files have been created with the [provided 
+shell script](example_create.sh.html), since log.html is symlinked
+to index.html.    
 
-This change was made so that the web-server could check if request is for a 
-directory. If it is check if there is a file called README.md.html in the 
-sub-directory file, if it exists serve that file instead of log.html.
+This change was made so that the web-server could check if the
+request is for a directory. If it is check if there is a file called 
+README.md.html in the sub-directory file, if it exists serve that 
+file instead of log.html.
 
 ### md4c
-https://github.com/mity/md4c
 md4c is used to parse and convert markdown documents into html. If a file 
 ends with `.md` it will be parsed by md4c rather than the regular way 
 stagit parses plain text files.
+
+https://github.com/mity/md4c
 
 ## Usage
 
