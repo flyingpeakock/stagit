@@ -14,7 +14,7 @@ to cli apps on my web-server.
 * md4c has been added to parse markdown files
 * Added classes and ids to some html tags to easier style them
 
-The link to download the file points to `/raw/repository.git/path/to/file`
+The link to download the file points to `/raw/?repository=&file=` where file is the full path to the file relative to the repository. If branch is omitted, HEAD is assumed.
 
 Make necessary changes to the web-server to serve the file    
 
@@ -22,6 +22,60 @@ To view a file in a bare repository:
 
     $cd path/to/repo
     $git show HEAD:path/to/file
+
+Simple python cgi to serve the file:
+
+```
+#!/bin/python3
+
+import cgi
+import subprocess
+import mimetypes
+
+def getFile(repo, filepath, branch):
+    gitcmd = subprocess.run(['git', 'show', f'{branch}:{filepath}'],
+            cwd=f'/home/pi/repositories/{repo}',
+            capture_output=True)
+    return gitcmd.stdout
+
+
+def guessType(filepath, extensions_map):
+    ext = '.' + filepath.split('.')[-1]
+    if ext in extensions_map:
+        return extensions_map[ext]
+    ext = ext.lower()
+    if ext in extensions_map:
+        return extensions_map[ext]
+    return extensions_map['']
+
+
+if not mimetypes.inited:
+    mimetypes.init()
+extensions_map = mimetypes.types_map.copy()
+extensions_map[''] = 'application/octet-stream'
+
+form = cgi.FieldStorage()
+repo = form.getvalue('repository')
+filepath = form.getvalue('file')
+if (form.getvalue('branch')):
+    branch = form.getvalue('branch')
+else:
+    branch = 'HEAD'
+
+ctype = guessType(filepath, extensions_map)
+response = getFile(repo, filepath, branch)
+
+if response:
+    print(f"Content-Type: {ctype}")
+    print(f"Conent-Length: {str(len(response))}")
+    print()
+    print(response)
+else:
+    print("Content-Type: text/plain")
+    print()
+    print("404: File not found")
+
+``` 
 
 The index page linking to the directory will not change the default 
 behavior of stagit if the html files have been created with the [provided 
@@ -32,6 +86,12 @@ This change was made so that the web-server could check if the
 request is for a directory. If it is check if there is a file called 
 README.md.html in the sub-directory file, if it exists serve that 
 file instead of log.html.
+
+Lighttpd conf to implement this:
+
+    url.redirect = ( "^\/stagit\/([a-zA-Z0-9-_.,]\/$" => "/stagit/$1/file/README.md" )
+    url.rewrite-if-not-file = ( "^\/stagit/([a-zA-Z0-9-_,.]*)\/file\/README.md.html$" => /redirect/$1" )
+    url.redirect += ( "^\/redirect/\([a-zA-Z0-9-_,.]*)" => "/stagit/$1/log.html" )
 
 ### md4c
 md4c is used to parse and convert markdown documents into html. If a file 
