@@ -5,7 +5,7 @@ static git page generator.
 It generates static HTML pages for a git repository.
 
 ## Changes
-View my stagit [here](https://philipj.ydns.eu/stagit/stagit/)
+View my stagit [here](https://philipj.ydns.eu/stagit/stagit/)    
 This is my personal fork of stagit.    
 It has been modified to fit my needs and some refs points
 to cli apps on my web-server.
