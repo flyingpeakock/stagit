@@ -31,6 +31,7 @@ Simple python cgi to serve the file:
 import cgi
 import subprocess
 import mimetypes
+import sys
 
 def getFile(repo, filepath, branch):
     gitcmd = subprocess.run(['git', 'show', f'{branch}:{filepath}'],
@@ -69,7 +70,8 @@ if response:
     print(f"Content-Type: {ctype}")
     print(f"Conent-Length: {str(len(response))}")
     print()
-    print(response)
+    sys.stdout.flush()
+    sys.stdout.buffer.write(response)
 else:
     print("Content-Type: text/plain")
     print()
