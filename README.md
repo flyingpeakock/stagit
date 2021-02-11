@@ -13,8 +13,11 @@ to cli apps on my web-server.
 * The index page now links to the repository directory
 * md4c has been added to parse markdown files
 * Added classes and ids to some html tags to easier style them
+* Changed style.css to a modern looking nord theme as well as markdown styling
 
-The link to download the file points to `/raw/?repository=&file=` where file is the full path to the file relative to the repository. If branch is omitted, HEAD is assumed.
+The link to download the file points to `/raw/?repository=&file=` 
+where file is the full path to the file relative to the repository. 
+It is also possible to specify which branch to fetch the file from.
 
 Make necessary changes to the web-server to serve the file    
 
